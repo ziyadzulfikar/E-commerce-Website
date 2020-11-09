@@ -19,10 +19,10 @@
                 {{#each products}}
                     <tr>
                     <th scope="row">{{si}}</th>
-                    <td>{{name}}</td>
-                    <td>{{category}}</td>
-                    <td>{{description}}</td>
-                    <td><img src="{{image}}" alt="" srcset="" style="height: 50px; width: 50px;"></td>
+                    <td>{{Name}}</td>
+                    <td>{{Category}}</td>
+                    <td>{{Description}}</td>
+                    <td><img src="/product-images/{{this._id}}.jpg" alt="" srcset="" style="height: 50px; width: 50px;"></td>
                     </tr>
                 {{/each}}
             </tbody>
