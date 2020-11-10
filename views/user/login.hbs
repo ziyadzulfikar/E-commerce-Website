@@ -1,0 +1,27 @@
+<form action="/login" method="POST">
+  <div class="imgcontainer">
+    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+  </div>
+
+  {{#if loginErr}}
+    <p class="error" style="text-align: center;">{{loginErr}}</p>
+  {{/if}}
+
+  <div class="container">
+    <label for="uname"><b>Email address</b></label>
+    <input type="email" placeholder="Enter Email" name="Email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Password" name="Password" required>
+        
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn"><a href="/" style="text-decoration: none; color: #f1f1f1;">Cancel</a></button>
+    <span class="psw"><a href="/signup">Create new Account?</a></span>
+  </div>
+</form>
