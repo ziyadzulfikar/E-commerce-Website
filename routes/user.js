@@ -31,12 +31,22 @@ router.get('/login',(req,res)=>{
   }
 })
 router.get('/signup',(req,res)=>{
-  res.render('user/signup', { title: 'Company', admin: false})
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+    res.render('user/signup', { title: 'Company', admin: false})
+  }
 })
 router.post('/signup',(req,res)=>{
-  userHelpers.doSignup(req.body).then((response)=>{
-    console.log(response);
-  })
+  
+    userHelpers.doSignup(req.body).then((response)=>{
+      console.log(response);
+      req.session.loggedIn = true
+      req.session.user = response
+      res.redirect('/')
+    })
+
+  
 })
 router.post('/login',(req,res)=>{
    userHelpers.doLogin(req.body).then((response)=>{
