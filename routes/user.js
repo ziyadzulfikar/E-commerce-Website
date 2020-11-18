@@ -14,12 +14,16 @@ const verifyLogin = (req,res,next)=>{
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   let user = req.session.user
   console.log(user);
+  let cartCount = null
+  if (req.session.user) {
+    cartCount = await userHelpers.getCartCount(req.session.user._id)
+  }
   productHelper.getAllProducts().then((products)=>{
     console.log(products);
-    res.render('user/view-products', { title: 'Company', products, user, admin: false});
+    res.render('user/view-products', { title: 'Company', products, user, cartCount, admin: false});
   })
 });
 router.get('/login',(req,res)=>{
@@ -64,9 +68,31 @@ router.get('/logout',(req,res)=>{
   req.session.destroy()
   res.redirect('/')
 })
-router.get('/cart', verifyLogin,(req,res)=>{
-  res.render('user/cart', { title: 'Company', admin: false})
-  
+router.get('/cart', verifyLogin,async(req,res)=>{
+  let products = await userHelpers.getCartProducts(req.session.user._id)
+  let total = await userHelpers.getTotalAmount(req.session.user._id)
+  console.log(products);
+  res.render('user/cart', { title: 'Company', user:req.session.user, products,total})
+})
+
+router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
+  console.log("api call");
+  userHelpers.addToCart(req.params.id, req.session.user._id).then(()=>{
+    res.json({status:true})
+  })
+})
+
+router.post('/change-product-quantity',(req,res,next)=>{
+  console.log(req.body);
+  userHelpers.changeProductQuantity(req.body).then(async(response)=>{
+    response.total = await userHelpers.getTotalAmount(req.body.user)
+    res.json(response)
+  })
+})
+
+router.get('/place-order', verifyLogin, async(req,res)=>{
+  let total = await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order',{title: 'Company',user:req.session.user, total})
 })
 
 module.exports = router;

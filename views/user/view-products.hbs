@@ -8,7 +8,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{this.Name}}</h5>
                         <p class="card-text">{{this.Description}}</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <button class="btn btn-success btn-sm float-left" style="width: 4vw;">Rs{{this.Price}}</button>
+                        <button onclick="addToCart('{{this._id}}')" class="btn btn-primary btn-sm float-right" style="width: 6vw;">Add to Cart</button>
                     </div>
                 </div>
             </div>
